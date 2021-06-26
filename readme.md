@@ -256,3 +256,13 @@ vagrant@ubuntu2004:~$ lxc exec moninstance -- nproc && free -mh
 Mem:          3.8Gi       307Mi       1.4Gi       1.0Mi       2.1Gi       3.3Gi
 Swap:         1.9Gi          0B       1.9Gi
 ~~~
+
+Soit au moment de la création, on lui attribut un profile:
+
+~~~bash
+vagrant@ubuntu2004:~$ lxc launch images:ubuntu/focal moninstance3 --profile monprofile
+Creating moninstance3
+Starting moninstance3
+vagrant@ubuntu2004:~$ lxc info moninstance3 | grep -i profile
+Profiles: monprofile
+~~~
