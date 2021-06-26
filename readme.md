@@ -107,6 +107,7 @@ consomment réélement les ressources, le plantage va arriver vite. Autant pour 
 la ressource de calcul de façon équitable, seul la durée des processus va s'allonger. Pour la mémoire, elle, s'il n'y en a plus, il n'y en a plus.
 Pour faire de la gestion de la ressource, lxc.lxd a les profiles. En gros, cela ressemble aux types d'instances Amazon EC2.
 
+~~~bash
 vagrant@ubuntu2004:~$ lxc profile list
 +---------+---------------------+---------+
 |  NAME   |     DESCRIPTION     | USED BY |
@@ -115,7 +116,7 @@ vagrant@ubuntu2004:~$ lxc profile list
 +---------+---------------------+---------+
 vagrant@ubuntu2004:~$ lxc profile create monprofile
 Profile monprofile created
-
+# C'est pas bien de faire ca !!! on récupère un profile vide
 vagrant@ubuntu2004:~$ lxc profile list
 +------------+---------------------+---------+
 |    NAME    |     DESCRIPTION     | USED BY |
@@ -124,6 +125,7 @@ vagrant@ubuntu2004:~$ lxc profile list
 +------------+---------------------+---------+
 | monprofile |                     | 0       |
 +------------+---------------------+---------+
+~~~
 
 lxc profile copy default monprofile
 
