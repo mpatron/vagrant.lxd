@@ -1,0 +1,23 @@
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# Eclipse
+.classpath
+.project
+.settings
+
+# Maven
+target
+
+#Derby
+derby.log
+
+.vagrant
+provision.retry
+.box
+
+mycentos7.box
