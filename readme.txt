@@ -1,6 +1,12 @@
+# Virtualisation avec LXC/LCD sous Ubuntu 20.04 LTS
 
-## Fabrication de la VM
-vagrant init generic/ubuntu2004
+3 modes de virtualisation : VM, LXC, Container. Les VM sont une reproduction d'une machine complète et nécessitent donc
+une consommation mémoire importante ainsi qu'une perte de puissance de CPU (presque 50% du CPU hard selon  [une étude IBM](./docs/1807.01842.pdf))
+
+## Fabrication de la VM avec vagrant
+vagrant init generic/ubuntu2004 # A ne faire qu'une seule fois
+vagrant box update
+vagrant 
 vagrant up
 vagran ssh
 
