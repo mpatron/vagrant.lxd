@@ -96,7 +96,7 @@ Mem:          3.8Gi       299Mi       2.4Gi       1.0Mi       1.1Gi       3.3Gi
 Swap:         1.9Gi          0B       1.9Gi
 ~~~
 
-Le container a les mêmes ressources que le hoster. C'est le fonctionnement normal avec un profile par default. De même 
+Le container a les mêmes ressources que le hoster. C'est le fonctionnement normal avec un profile par default. De même
 si vous créez une deuxième instance, les deux instances auront 100% des capacités du hoster.
 
 ~~~bash
