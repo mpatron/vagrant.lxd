@@ -32,9 +32,13 @@ Suite au provisionning de vagrant les actions suivantes ne sont pas nécessaire 
 
 ~~~bash
 sudo apt autoclean -y && sudo apt update -y && sudo apt upgrade -y && sudo apt autoremove --purge -y
+# cd /vagrant && PYTHONUNBUFFERED=1 ANSIBLE_NOCOLOR=False ANSIBLE_CONFIG=ansible.cfg ansible-playbook --limit="all" --inventory-file=inventory.txt --extra-vars=\{\"PROXY_ON\":false,\"PROXY_SERVER\":\"\"\} -v provision.yml
+
 sudo snap install lxd --channel=latest/stable
 sudo adduser $USER lxd
 newgrp lxd
+# Avant tout, on configure lxd par default
+lxd init --auto
 ~~~
 
 ## Lancement du premier container dans LXC/LXD
