@@ -22,8 +22,14 @@ vagrant box prune --force
 Fini le ménage, on commence par lancer la VM :
 
 ~~~powershell
-vagrant up --provision
+vagrant up --provision --provider=virtualbox
 vagran ssh # Connection à la VM Ubuntu 20.04 qui va porter LXC/LXD
+~~~
+
+A la fin, pour détruire la VM :
+
+~~~powershell
+vagrant destroy --force
 ~~~
 
 ## Installation de lxd
@@ -276,12 +282,14 @@ Grace à la documentation des API serveur de LXD [https://lxd.readthedocs.io/en/
 ~~~bash
 #/bin/bash
 
-# L'objectif du script est de récupérer sur la sortie standard la liste des noms et ip des containers pour pouvoir les mettre 
+# L'objectif du script est de récupérer sur la sortie standard la liste des noms et ip des containers pour pouvoir les mettre
 # facilement dans /etc/hosts.
 
 # Le nom du serveur lxd est lxd à la suite d'une installation par snap.
 # Un curl d'interrogation afin d'avoir la liste des instances
 LIST_HOSTNAME=$(curl -s --unix-socket /var/snap/lxd/common/lxd/unix.socket -H "Content-Type: application/json" lxd/1.0/instances | jq '.metadata | .[] | .[15:]')
+
+echo "### begin /etc/hosts ######"
 for I_HOSTNAME in $LIST_HOSTNAME
 do
         # Supression des " de la variable I_HOSTNAME
@@ -293,4 +301,18 @@ do
         # Affichage sur la sorti standard
         echo $I_HOSTNAME $IP_HOSTNAME
 done
+echo "### end   /etc/hosts ######"
+echo
+echo "### begin /etc/ansible/hosts ######"
+echo "[servers]"
+for I_HOSTNAME in $LIST_HOSTNAME
+do
+        # Supression des " de la variable I_HOSTNAME
+        I_HOSTNAME=$(echo $I_HOSTNAME | sed -e "s/\"//g")
+        echo $I_HOSTNAME ansible_ssh_host=$I_HOSTNAME
+done
+echo [all:vars]
+echo ansible_python_interpreter=/usr/bin/python3
+echo ansible_connection=lxd
+echo "### end   /etc/ansible/hosts ######"
 ~~~

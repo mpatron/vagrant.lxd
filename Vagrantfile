@@ -19,9 +19,11 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", run: "always", inline: <<-SHELL1
     sudo apt autoclean -y && sudo apt update -y && sudo apt upgrade -y && sudo apt autoremove --purge -y
     sudo apt -y install rng-tools iftop htop lsof sshpass
-    sudo sed -i -e "\\#PasswordAuthentication no# s#PasswordAuthentication no#PasswordAuthentication yes#g" /etc/ssh/sshd_config
+    sudo apt -y install ansible ssh jq
+    sudo sed -i -e "\\#PasswordAuthentication yes# s#PasswordAuthentication yes#PasswordAuthentication yes#g" /etc/ssh/sshd_config
     sudo systemctl restart sshd
     sudo snap install lxd --channel=4.0/stable
     sudo adduser $USER lxd
+    sudo lxd init --auto
   SHELL1
 end
