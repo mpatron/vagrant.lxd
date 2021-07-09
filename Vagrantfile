@@ -13,8 +13,8 @@ Vagrant.configure("2") do |config|
   # config.ssh.insert_key = 'true'
   config.vm.synced_folder ".", "/vagrant", type: "virtualbox"
   config.vm.provider "virtualbox" do |vb|
-    vb.memory = "4096"
-	  vb.cpus = 4
+    vb.memory = "8192"
+	  vb.cpus = 8
   end
   config.vm.provision "shell", run: "always", inline: <<-SHELL1
     sudo apt autoclean -y && sudo apt update -y && sudo apt upgrade -y && sudo apt autoremove --purge -y

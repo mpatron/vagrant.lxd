@@ -97,3 +97,34 @@ moninstance3 ansible_ssh_host=moninstance3
 [all:vars]
 ansible_python_interpreter=/usr/bin/python3
 ansible_connection=lxd
+
+
+
+
+apt-get install linux-image-$(uname -r)
+'jupyterhub-singleuser'
+
+# Installation de kubectl mano
+curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+chmod +x ./kubectl
+sudo mv ./kubectl /usr/local/bin/kubectl
+mkdir ~/.kube
+lxc file pull kmaster/etc/kubernetes/admin.conf ~/.kube/config
+kubectl get nodes
+
+# Installation de kubectl apt-get
+sudo apt-get update && sudo apt-get install -y apt-transport-https
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
+sudo apt-get update
+sudo apt-get install -y kubectl
+
+# Installation de kubectl completion
+apt-get install bash-completion
+sudo bash -c "kubectl completion bash >/etc/bash_completion.d/kubectl"
+echo 'alias k=kubectl' >>~/.bashrc
+echo 'complete -F __start_kubectl k' >>~/.bashrc
+
+sudo bash -c "curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash"
+helm repo add jupyterhub https://jupyterhub.github.io/helm-chart/
+helm repo update
