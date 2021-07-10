@@ -139,3 +139,6 @@ sysctl -w vm.swappiness=10
 echo 'net.core.wmem_max=31457280' >> /etc/sysctl.conf
 echo 'net.core.rmem_max=31457280' >> /etc/sysctl.conf
 echo 'vm.swappiness=10' >> /etc/sysctl.conf
+# La prise en compte de la modification du swappiness se fait soit au reboot soit en déactivant/reactivant le swap
+swapoff -a
+swapon -a
