@@ -142,3 +142,6 @@ echo 'vm.swappiness=10' >> /etc/sysctl.conf
 # La prise en compte de la modification du swappiness se fait soit au reboot soit en déactivant/reactivant le swap
 swapoff -a
 swapon -a
+
+# Des trucs intéressants
+https://github.com/justmeandopensource/kubernetes/tree/master/lxd-provisioning
