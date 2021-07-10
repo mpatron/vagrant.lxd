@@ -128,3 +128,14 @@ echo 'complete -F __start_kubectl k' >>~/.bashrc
 sudo bash -c "curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash"
 helm repo add jupyterhub https://jupyterhub.github.io/helm-chart/
 helm repo update
+
+
+# optimisation du hoster
+# mettre le cache des carte réseau à 32Mo
+sysctl -w net.core.rmem_max=31457280
+sysctl -w net.core.wmem_max=31457280
+# limiter l'utilisation du disque, déclanché son utilisation dès que 100-10=90% de la ram est utilisé, pas avant.
+sysctl -w vm.swappiness=10
+echo 'net.core.wmem_max=31457280' >> /etc/sysctl.conf
+echo 'net.core.rmem_max=31457280' >> /etc/sysctl.conf
+echo 'vm.swappiness=10' >> /etc/sysctl.conf
