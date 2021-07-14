@@ -47,6 +47,16 @@ newgrp lxd
 lxd init --auto
 ~~~
 
+Status du service lxd
+
+~~~bash
+sudo snap services lxd
+sudo snap restart lxd
+sudo snap start --enable lxd.daemon ## Pas très recommandé en snap
+sudo snap stop --disable lxd.daemon ## Pas très recommandé en snap
+sudo snap logs lxd
+~~~
+
 ## Lancement du premier container dans LXC/LXD
 
 Créons une instance et listons les instances

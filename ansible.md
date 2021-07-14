@@ -111,6 +111,7 @@ sudo mv ./kubectl /usr/local/bin/kubectl
 mkdir ~/.kube
 lxc file pull kmaster/etc/kubernetes/admin.conf ~/.kube/config
 kubectl get nodes
+kubectl get pods --all-namespaces
 
 # Installation de kubectl apt-get
 sudo apt-get update && sudo apt-get install -y apt-transport-https
@@ -132,16 +133,45 @@ helm repo update
 
 # optimisation du hoster
 # mettre le cache des carte réseau à 32Mo
-sysctl -w net.core.rmem_max=31457280
-sysctl -w net.core.wmem_max=31457280
+sudo sysctl -w net.core.rmem_max=31457280
+sudo sysctl -w net.core.wmem_max=31457280
 # limiter l'utilisation du disque, déclanché son utilisation dès que 100-10=90% de la ram est utilisé, pas avant.
-sysctl -w vm.swappiness=10
-echo 'net.core.wmem_max=31457280' >> /etc/sysctl.conf
-echo 'net.core.rmem_max=31457280' >> /etc/sysctl.conf
-echo 'vm.swappiness=10' >> /etc/sysctl.conf
+sudo sysctl -w vm.swappiness=10
+sudo bash -c "echo 'net.core.wmem_max=31457280' >> /etc/sysctl.conf"
+sudo bash -c "echo 'net.core.rmem_max=31457280' >> /etc/sysctl.conf"
+sudo bash -c "echo 'vm.swappiness=10' >> /etc/sysctl.conf"
 # La prise en compte de la modification du swappiness se fait soit au reboot soit en déactivant/reactivant le swap
 swapoff -a
 swapon -a
 
+
+Edit the file /etc/sysctl.conf and add the following:
+net.core.wmem_max = 16777216
+net.core.wmem_default = 131072
+net.core.rmem_max = 16777216
+net.core.rmem_default = 131072
+net.ipv4.tcp_rmem = 4096 131072 16777216
+net.ipv4.tcp_wmem = 4096 131072 16777216
+net.ipv4.tcp_mem = 4096 131072 16777216
+net.core.netdev_max_backlog = 30000
+net.ipv4.ipfrag_high_threshold = 8388608
+run /sbin/sysctl -p
+
+
+
 # Des trucs intéressants
 https://github.com/justmeandopensource/kubernetes/tree/master/lxd-provisioning
+
+lxc stop kmaster kworker{1,2}
+lxc delete kmaster kworker{1,2}
+
+
+curl https://baltocdn.com/helm/signing.asc | sudo apt-key add -
+sudo apt-get install apt-transport-https --yes
+echo "deb https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
+sudo apt-get update
+sudo apt-get install helm
+
+
+https://zero-to-jupyterhub.readthedocs.io/en/latest/jupyterhub/installation.html
+https://zero-to-jupyterhub.readthedocs.io/en/stable/resources/reference.html
