@@ -98,13 +98,11 @@ moninstance3 ansible_ssh_host=moninstance3
 ansible_python_interpreter=/usr/bin/python3
 ansible_connection=lxd
 
-
-
-
 apt-get install linux-image-$(uname -r)
 'jupyterhub-singleuser'
 
 # Installation de kubectl mano
+
 curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
 chmod +x ./kubectl
 sudo mv ./kubectl /usr/local/bin/kubectl
