@@ -22,6 +22,7 @@ kubeprovision()
     cat bootstrap-kube.sh | lxc exec $node bash
     echo
   done
+  # Installation de kubectl
   mkdir ~/.kube
   lxc file pull kmaster/etc/kubernetes/admin.conf ~/.kube/config
   ls -l ~/.kube
@@ -31,6 +32,13 @@ kubeprovision()
   sudo apt-get update
   sudo apt-get install -y kubectl
   kubectl get nodes
+  # Installation de helm
+  sudo snap install helm --classic
+  # Completion de kubectl
+  sudo apt-get install -y bash-completion
+  sudo bash -c "kubectl completion bash >/etc/bash_completion.d/kubectl"
+  echo 'alias k=kubectl' >>~/.bashrc
+  echo 'complete -F __start_kubectl k' >>~/.bashrc
 }
 
 kubedestroy()
