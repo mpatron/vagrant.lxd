@@ -37,6 +37,7 @@ kubeprovision()
   # Completion de kubectl
   sudo apt-get install -y bash-completion
   sudo bash -c "kubectl completion bash >/etc/bash_completion.d/kubectl"
+  sudo bash -c "helm completion bash >/etc/bash_completion.d/helm"
   echo 'alias k=kubectl' >>~/.bashrc
   echo 'complete -F __start_kubectl k' >>~/.bashrc
 }

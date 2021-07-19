@@ -9,6 +9,8 @@ sudo snap install helm --classic
 helm repo add metallb https://metallb.github.io/metallb
 helm install metallb metallb/metallb
 helm install metallb metallb/metallb -f metallb_values.yaml
+helm --debug upgrade --install metallb metallb/metallb -f metallb_values.yaml
+helm uninstall metallb
 
 metallb_values.yaml
 configInline:
@@ -67,3 +69,41 @@ kube-system   deployment.apps/coredns              2/2     2            2       
 NAMESPACE     NAME                                            DESIRED   CURRENT   READY   AGE
 default       replicaset.apps/metallb-controller-748756655f   1         1         1       10h
 kube-system   replicaset.apps/coredns-558bd4d5db              2         2         2       21h
+
+
+Puis entamer la phase de test:
+
+~~~bash
+# kubectl create deploy nginx-test --image nginx
+# kubectl expose deploy nginx-test --port 80 --type LoadBalancer
+# ou
+kubectl run nginx-test --image nginxdemos/hello --port 80 --expose
+watch kubectl get all --all-namespaces
+kubectl logs -f $(kubectl get pods | awk 'NR==2 {print $1}')
+kubectl proxy --port=8080 &
+curl http://localhost:8080/api/v1/namespaces/default/services/http:nginx-test:/proxy/
+fg %1
+<Ctrl-C>
+kubectl delete deployment nginx-test
+kubectl delete service nginx-test
+kubectl delete pods nginx-test
+~~~
+
+
+vagrant@ubuntu2004:/vagrant/files$  kubectl get services --all-namespaces
+NAMESPACE     NAME         TYPE           CLUSTER-IP       EXTERNAL-IP    PORT(S)                  AGE
+default       kubernetes   ClusterIP      10.96.0.1        <none>         443/TCP                  21h
+default       nginx        LoadBalancer   10.111.146.220   192.168.59.0   80:32698/TCP             2m39s
+kube-system   kube-dns     ClusterIP      10.96.0.10       <none>         53/UDP,53/TCP,9153/TCP   21h
+
+vagrant@ubuntu2004:/vagrant/files$ helm get values metallb
+USER-SUPPLIED VALUES:
+configInline:
+  address-pools:
+  - addresses:
+    - 10.96.0.200-10.96.0.210
+    name: default
+    protocol: layer2
+
+
+kubectl get all --all-namespaces
