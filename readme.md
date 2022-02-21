@@ -326,3 +326,11 @@ echo ansible_python_interpreter=/usr/bin/python3
 echo ansible_connection=lxd
 echo "### end   /etc/ansible/hosts ######"
 ~~~
+
+## Lxd avec vagrant
+
+~~~bash
+sudo apt-get install lxc-utils lxc-templates
+vagrant plugin install vagrant-lxc
+vagrant up --provider=lxc
+~~~
