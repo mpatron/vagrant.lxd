@@ -329,6 +329,8 @@ echo "### end   /etc/ansible/hosts ######"
 
 ## Lxd avec vagrant
 
+Attention ici, c'est une autre histoire, ce n'est possible que sous un hoster linux à cause lxc/lxd, mais qu'est ce que c'est bien. C'est rapide à monter et à éxécuter. C'est la technique la plus rapide pour monter plusieur VM from scratch.
+
 ~~~bash
 sudo apt-get install lxc-utils lxc-templates
 vagrant plugin install vagrant-lxc
