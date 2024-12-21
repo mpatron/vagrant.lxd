@@ -3,6 +3,14 @@
 3 modes de virtualisation : VM, LXC, Container. Les VM sont une reproduction d'une machine complète et nécessitent donc
 une consommation mémoire importante ainsi qu'une perte de puissance de CPU (presque 50% du CPU hard selon  [une étude IBM](./docs/1807.01842.pdf))
 
+## Installation de vagrant
+
+~~~bash
+wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+sudo apt update && sudo apt install vagrant
+~~~
+
 ## Fabrication de la VM avec vagrant
 
 Suite à un git clone
@@ -12,6 +20,9 @@ git clone git@github.com:mpatron/vagrant.lxd.git
 ~~~
 
 Il faut télécharger l'image depuis [le site vagrant hub](https://app.vagrantup.com/generic/boxes/ubuntu2004). Puis mettre à jour de temps en temps. Et aussi de nétoyer les vielles images.
+OU trouver une image qui vous convient dans [https://portal.cloud.hashicorp.com/vagrant/discover](https://portal.cloud.hashicorp.com/vagrant/discover)
+
+generic/debian12
 
 ~~~powershell
 vagrant init generic/ubuntu2004 # A ne faire qu'une seule fois
